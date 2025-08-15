@@ -1,127 +1,146 @@
 
 import React, { useState } from 'react';
-import './Clientes.css';
+import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
-const initialClientes = [
+interface Cliente {
+  id: number;
+  nombre: string;
+  email: string;
+  telefono: string;
+}
+
+const initialClientes: Cliente[] = [
   { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '123456789' },
   { id: 2, nombre: 'Ana Gómez', email: 'ana@example.com', telefono: '987654321' },
 ];
 
 const Clientes = () => {
-  const [clientes, setClientes] = useState(initialClientes);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [formType, setFormType] = useState(''); // 'agregar' | 'editar'
-  const [formData, setFormData] = useState({ nombre: '', email: '', telefono: '' });
+  const [clientes, setClientes] = useState<Cliente[]>(initialClientes);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
+  const [form] = Form.useForm();
 
-  const handleRowClick = (id: number) => {
-    setSelectedId(id);
-  };
+  const columns: ColumnsType<Cliente> = [
+    { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
+    { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
+  ];
 
   const handleAgregar = () => {
     setFormType('agregar');
-    setFormData({ nombre: '', email: '', telefono: '' });
-    setShowForm(true);
+    form.resetFields();
+    setIsModalOpen(true);
   };
 
   const handleEditar = () => {
-    const cliente = clientes.find(c => c.id === selectedId);
-    if (!cliente) return;
+    if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
-    setFormData({ nombre: cliente.nombre, email: cliente.email, telefono: cliente.telefono });
-    setShowForm(true);
+    const cliente = clientes.find(c => c.id === selectedRowKeys[0]);
+    if (cliente) {
+      form.setFieldsValue(cliente);
+      setIsModalOpen(true);
+    }
   };
 
   const handleEliminar = () => {
-    if (selectedId == null) return;
-    setClientes(clientes.filter(c => c.id !== selectedId));
-    setSelectedId(null);
+    if (selectedRowKeys.length === 0) return;
+    Modal.confirm({
+      title: '¿Eliminar cliente(s)?',
+      content: '¿Estás seguro que deseas eliminar el/los cliente(s) seleccionado(s)?',
+      okText: 'Sí',
+      cancelText: 'No',
+      onOk: () => {
+        setClientes(clientes.filter(c => !selectedRowKeys.includes(c.id)));
+        setSelectedRowKeys([]);
+        message.success('Cliente(s) eliminado(s)');
+      },
+    });
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (formType === 'agregar') {
-      const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
-      setClientes([...clientes, { id: newId, ...formData }]);
-    } else if (formType === 'editar') {
-      setClientes(clientes.map(c => c.id === selectedId ? { ...c, ...formData } : c));
+  const handleModalOk = async () => {
+    try {
+      const values = await form.validateFields();
+      if (formType === 'agregar') {
+        const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
+        setClientes([...clientes, { id: newId, ...values }]);
+        message.success('Cliente agregado');
+      } else if (formType === 'editar') {
+        setClientes(clientes.map(c => c.id === selectedRowKeys[0] ? { ...c, ...values } : c));
+        message.success('Cliente editado');
+      }
+      setIsModalOpen(false);
+      setFormType('');
+      form.resetFields();
+      setSelectedRowKeys([]);
+    } catch (err) {
+      // validation error
     }
-    setShowForm(false);
-    setFormType('');
-    setFormData({ nombre: '', email: '', telefono: '' });
   };
 
-  const handleFormCancel = () => {
-    setShowForm(false);
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
     setFormType('');
-    setFormData({ nombre: '', email: '', telefono: '' });
+    form.resetFields();
   };
 
   return (
-    <div className="clientes-container">
-      <div className="clientes-header">
-        <h1>Clientes</h1>
-        <div className="clientes-actions">
-          <button onClick={handleAgregar}>Agregar</button>
-          <button onClick={handleEditar} disabled={selectedId == null}>Editar</button>
-          <button onClick={handleEliminar} disabled={selectedId == null}>Eliminar</button>
-        </div>
-      </div>
-      <table className="clientes-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clientes.map(cliente => (
-            <tr
-              key={cliente.id}
-              className={cliente.id === selectedId ? 'selected' : ''}
-              onClick={() => handleRowClick(cliente.id)}
-              style={{ cursor: 'pointer' }}
-            >
-              <td>{cliente.id}</td>
-              <td>{cliente.nombre}</td>
-              <td>{cliente.email}</td>
-              <td>{cliente.telefono}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {showForm && (
-        <div className="clientes-modal">
-          <div className="clientes-modal-content">
-            <h2>{formType === 'agregar' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
-            <form onSubmit={handleFormSubmit}>
-              <label>
-                Nombre:
-                <input name="nombre" value={formData.nombre} onChange={handleFormChange} required />
-              </label>
-              <label>
-                Email:
-                <input name="email" value={formData.email} onChange={handleFormChange} required />
-              </label>
-              <label>
-                Teléfono:
-                <input name="telefono" value={formData.telefono} onChange={handleFormChange} required />
-              </label>
-              <div className="clientes-modal-actions">
-                <button type="submit">Guardar</button>
-                <button type="button" onClick={handleFormCancel}>Cancelar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+    <div style={{ padding: 24 }}>
+      <h1 style={{ marginBottom: 24 }}>Clientes</h1>
+      <Space style={{ marginBottom: 16 }}>
+        <Button type="primary" onClick={handleAgregar}>Agregar</Button>
+        <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>
+        <Button danger onClick={handleEliminar} disabled={selectedRowKeys.length === 0}>Eliminar</Button>
+      </Space>
+      <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={clientes}
+        rowSelection={{
+          type: 'radio',
+          selectedRowKeys,
+          onChange: setSelectedRowKeys,
+        }}
+        pagination={false}
+      />
+      <Modal
+        open={isModalOpen}
+        title={formType === 'agregar' ? 'Agregar Cliente' : 'Editar Cliente'}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        okText="Guardar"
+        cancelText="Cancelar"
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={{ nombre: '', email: '', telefono: '' }}
+        >
+          <Form.Item
+            label="Nombre"
+            name="nombre"
+            rules={[{ required: true, message: 'Ingrese el nombre' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Teléfono"
+            name="telefono"
+            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -12,8 +12,8 @@
 .clientes-actions button {
   margin-left: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #007bff;
-  color: #fff;
+  background: #5ad96d;
+  color: #000000;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -21,27 +21,30 @@
 }
 
 .clientes-actions button:hover {
-  background: #0056b3;
+  background: #5ad96d;
 }
 
 .clientes-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: #9dd68d;
+  color: #3e4d38;
 }
 
 .clientes-table th, .clientes-table td {
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   padding: 0.75rem;
   text-align: left;
 }
 
 .clientes-table th {
-  background: #f4f4f4;
+  background: #44874d;
+  color: #ffffff;
 }
 
 .clientes-table tr.selected {
-  background: #d0e7ff;
+  background: #59b165;
+  color: #ffffff;
 }
 
 .clientes-modal {
@@ -57,7 +60,7 @@
   z-index: 1000;
 }
 .clientes-modal-content {
-  background: #fff;
+  background: #3c7936;
   padding: 2rem;
   border-radius: 8px;
   min-width: 320px;
@@ -71,7 +74,7 @@
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.25rem;
-  border: 1px solid #ccc;
+  border: 1px solid #0a0a0a;
   border-radius: 4px;
 }
 .clientes-modal-actions {
