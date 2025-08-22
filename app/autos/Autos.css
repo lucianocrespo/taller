@@ -1,0 +1,85 @@
+.autos-container {
+  padding: 2rem;
+}
+
+.autos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.autos-actions button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #5ad96d;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.autos-actions button:hover {
+  background: #5ad96d;
+}
+
+.autos-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #9dd68d;
+  color: #3e4d38;
+}
+
+.autos-table th, .autos-table td {
+  border: 1px solid #000000;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.autos-table th {
+  background: #44874d;
+  color: #ffffff;
+}
+
+.autos-table tr.selected {
+  background: #59b165;
+  color: #ffffff;
+}
+
+.autos-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.autos-modal-content {
+  background: #3c7936;
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 320px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+.autos-modal-content label {
+  display: block;
+  margin-bottom: 1rem;
+}
+.autos-modal-content input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+}
+.autos-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+

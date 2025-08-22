@@ -14,6 +14,10 @@ const routes: RouteConfig = [
 				path: "clientes",
 				file: "routes/clientes.tsx",
 			},
+			{
+			   path: "autos",
+			   file: "autos.tsx",
+		   },
 		],
 	},
 ];
