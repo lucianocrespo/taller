@@ -18,6 +18,10 @@ const routes: RouteConfig = [
 			   path: "autos",
 			   file: "autos.tsx",
 		   },
+			{
+				path: "turnos",
+				file: "routes/turnos.tsx",
+			},
 		],
 	},
 ];

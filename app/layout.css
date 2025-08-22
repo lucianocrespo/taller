@@ -76,6 +76,7 @@
 
 .main-content {
   flex: 1;
+  color: #000000;
   background: #f7f7f7;
   padding: 2rem;
 }
