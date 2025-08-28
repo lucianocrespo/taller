@@ -22,6 +22,10 @@ const routes: RouteConfig = [
 				path: "turnos",
 				file: "routes/turnos.tsx",
 			},
+			{
+				path: "ventas",
+				file: "routes/ventas.tsx",
+			},
 		],
 	},
 ];

@@ -1,0 +1,40 @@
+.ventas-container {
+  padding: 2rem;
+}
+.ventas-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.ventas-table th, .ventas-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+.ventas-table th {
+  background: #f5f5f5;
+}
+.ventas-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+}
+.ventas-form input, .ventas-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.ventas-form button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  background: #1976d2;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ventas-form button[type="button"] {
+  background: #aaa;
+}
