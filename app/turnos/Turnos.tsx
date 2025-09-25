@@ -173,7 +173,7 @@ const Turnos = () => {
             try {
               const values = await clienteForm.validateFields();
               const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
-              const nuevoCliente = { id: newId, nombre: values.nombre };
+              const nuevoCliente = { id: newId, nombre: values.nombre, email: values.email, telefono: values.telefono};
               setClientes([...clientes, nuevoCliente]);
               setIsClienteModalOpen(false);
               clienteForm.resetFields();
@@ -187,6 +187,8 @@ const Turnos = () => {
         >
           <Form form={clienteForm} layout="vertical">
             <Form.Item name="nombre" label="Nombre" rules={[{ required: true, message: 'Ingrese el nombre' }]}> <Input /> </Form.Item>
+            <Form.Item name="telefono" label="Telefono" rules={[{ required: true, message: 'Ingrese el telefono' }]}> <Input /> </Form.Item>
+            <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Ingrese el mail' }]}> <Input /> </Form.Item>
           </Form>
         </Modal>
       </Modal>
