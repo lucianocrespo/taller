@@ -60,6 +60,12 @@ const Ventas = () => {
     setIsModalOpen(true);
   };
 
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
+    setFormType('');
+    form.resetFields();
+  };
+
   const handleEditar = () => {
     if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
@@ -130,7 +136,7 @@ const Ventas = () => {
         title={formType === 'agregar' ? 'Agregar Venta' : 'Editar Venta'}
         open={isModalOpen}
         onOk={handleModalOk}
-        onCancel={() => { setIsModalOpen(false); form.resetFields(); }}
+        onCancel={handleModalCancel}
         okText="Guardar"
         cancelText="Cancelar"
       >

@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Table, Button, Modal, Form, Select, DatePicker, TimePicker, Space, message } from "antd";
+import { Table, Button, Modal, Form, Select, DatePicker, TimePicker, Space, message, Input } from "antd";
 import dayjs from "dayjs";
 
 interface Turno {
@@ -12,7 +12,7 @@ interface Turno {
   estado: string;
 }
 
-const clientes = [
+const initialClientes = [
   { id: 1, nombre: "Juan Pérez" },
   { id: 2, nombre: "Ana Gómez" },
 ];
@@ -29,10 +29,14 @@ const initialTurnos: Turno[] = [
 
 const Turnos = () => {
   const [turnos, setTurnos] = useState<Turno[]>(initialTurnos);
+  const [clientes, setClientes] = useState(initialClientes);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
   const [form] = Form.useForm();
+  // Estado para el modal de cliente
+  const [isClienteModalOpen, setIsClienteModalOpen] = useState(false);
+  const [clienteForm] = Form.useForm();
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
@@ -148,12 +152,43 @@ const Turnos = () => {
         cancelText="Cancelar"
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="clienteId" label="Cliente" rules={[{ required: true, message: 'Seleccione un cliente' }]}> <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} /> </Form.Item>
+          <Form.Item
+            name="clienteId"
+            label={<span>Cliente <Button size="small" type="link" onClick={() => setIsClienteModalOpen(true)}>Nuevo Cliente</Button></span>}
+            rules={[{ required: true, message: 'Seleccione un cliente' }]}
+          >
+            <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
+          </Form.Item>
           <Form.Item name="autoId" label="Auto" rules={[{ required: true, message: 'Seleccione un auto' }]}> <Select options={autos.map(a => ({ value: a.id, label: `${a.marca} ${a.modelo} (${a.patente})` }))} /> </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Seleccione la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="hora" label="Hora" rules={[{ required: true, message: 'Seleccione la hora' }]}> <TimePicker format="HH:mm" style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Seleccione el estado' }]}> <Select options={[{ value: 'Pendiente', label: 'Pendiente' }, { value: 'Confirmado', label: 'Confirmado' }, { value: 'Finalizado', label: 'Finalizado' }]} /> </Form.Item>
         </Form>
+        {/* Modal para agregar cliente */}
+        <Modal
+          open={isClienteModalOpen}
+          title="Agregar Cliente"
+          onCancel={() => { setIsClienteModalOpen(false); clienteForm.resetFields(); }}
+          onOk={async () => {
+            try {
+              const values = await clienteForm.validateFields();
+              const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
+              const nuevoCliente = { id: newId, nombre: values.nombre };
+              setClientes([...clientes, nuevoCliente]);
+              setIsClienteModalOpen(false);
+              clienteForm.resetFields();
+              // Selecciona automáticamente el nuevo cliente en el formulario de turno
+              form.setFieldValue('clienteId', newId);
+              message.success('Cliente agregado');
+            } catch (err) {}
+          }}
+          okText="Guardar"
+          cancelText="Cancelar"
+        >
+          <Form form={clienteForm} layout="vertical">
+            <Form.Item name="nombre" label="Nombre" rules={[{ required: true, message: 'Ingrese el nombre' }]}> <Input /> </Form.Item>
+          </Form>
+        </Modal>
       </Modal>
     </div>
   );
