@@ -1,0 +1,15 @@
+.presupuesto-container h1 {
+  margin-bottom: 16px;
+}
+.detalle-section h3 {
+  margin: 8px 0;
+}
+.presupuesto-container .ant-table {
+  background: #fff;
+}
+.presupuesto-container .ant-modal-body {
+  background: #fff;
+}
+.presupuesto-container .ant-space {
+  margin-bottom: 12px;
+}

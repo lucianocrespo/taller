@@ -27,8 +27,16 @@ const routes: RouteConfig = [
 				file: "routes/ventas.tsx",
 			},
 			{
-				path: "Reparacion",
-				file: "routes/Reparacion.tsx",
+				path: "reparacion",
+				file: "routes/reparacion.tsx",
+			},
+			{
+				path: "compVenta",
+				file: "routes/compVenta.tsx",
+			},
+			{
+				path: "presupuesto",
+				file: "routes/presupuesto.tsx",
 			},
 		],
 	},

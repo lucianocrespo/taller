@@ -2,6 +2,31 @@
   padding: 2rem;
 }
 
+.reparacion-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 24px;
+}
+
+.reparacion-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.ant-table {
+  margin-bottom: 24px;
+}
+
+.ant-btn {
+  margin-right: 8px;
+}
+
+.ant-modal .ant-form {
+  margin-top: 16px;
+}
+
 .turnos-table {
   width: 100%;
   border-collapse: collapse;
