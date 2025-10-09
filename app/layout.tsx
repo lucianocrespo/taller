@@ -16,6 +16,7 @@ export default function Layout() {
             <li><Link to="/autos">Autos</Link></li>
             <li><Link to="/reparacion">Reparaciones</Link></li>
             <li><Link to="/compVenta">Comprobantes de Venta</Link></li>
+            <li><Link to="/compPago">Comprobantes de Pago</Link></li>
             <li><Link to="/presupuesto">Presupuestos</Link></li>
           </ul>
         </nav>
