@@ -1,12 +1,11 @@
-
-.ventas-container {
+.compcompra-container {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 24px;
 }
 
-.ventas-container h1 {
+.compcompra-container h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #333;

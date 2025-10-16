@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, Space, message, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+
+
+interface Cliente {
+  id: number;
+  nombre: string;
+}
 
 interface Venta {
   id: number;
@@ -10,6 +16,12 @@ interface Venta {
   fecha: string;
   monto: number;
 }
+
+const clientes: Cliente[] = [
+  { id: 1, nombre: 'Juan Pérez' },
+  { id: 2, nombre: 'María Gómez' },
+  { id: 3, nombre: 'Carlos López' },
+];
 
 const initialVentas: Venta[] = [
   {
@@ -71,7 +83,15 @@ const Ventas = () => {
     setFormType('editar');
     const venta = ventas.find(v => v.id === selectedRowKeys[0]);
     if (venta) {
-      form.setFieldsValue(venta);
+      // Buscar el cliente por nombre y setear el id
+      const clienteObj = clientes.find(c => c.nombre === venta.cliente);
+      form.setFieldsValue({
+        clienteId: clienteObj ? clienteObj.id : undefined,
+        vehiculo: venta.vehiculo,
+        descripcion: venta.descripcion,
+        fecha: venta.fecha,
+        monto: venta.monto,
+      });
       setIsModalOpen(true);
     }
   };
@@ -94,12 +114,26 @@ const Ventas = () => {
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
+      const clienteObj = clientes.find(c => c.id === values.clienteId);
+      if (!clienteObj) {
+        message.error('Debe seleccionar un cliente válido');
+        return;
+      }
+      const ventaData: Venta = {
+        id: formType === 'agregar'
+          ? (ventas.length ? Math.max(...ventas.map(v => v.id)) + 1 : 1)
+          : selectedRowKeys[0] as number,
+        cliente: clienteObj.nombre,
+        vehiculo: values.vehiculo,
+        descripcion: values.descripcion,
+        fecha: values.fecha,
+        monto: values.monto,
+      };
       if (formType === 'agregar') {
-        const newId = ventas.length ? Math.max(...ventas.map(v => v.id)) + 1 : 1;
-        setVentas([...ventas, { id: newId, ...values }]);
+        setVentas([...ventas, ventaData]);
         message.success('Venta agregada');
       } else if (formType === 'editar') {
-        setVentas(ventas.map(v => v.id === selectedRowKeys[0] ? { ...v, ...values } : v));
+        setVentas(ventas.map(v => v.id === selectedRowKeys[0] ? ventaData : v));
         message.success('Venta editada');
       }
       setIsModalOpen(false);
@@ -141,7 +175,13 @@ const Ventas = () => {
         cancelText="Cancelar"
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="cliente" label="Cliente" rules={[{ required: true, message: 'Ingrese el nombre del cliente' }]}> <Input /> </Form.Item>
+          <Form.Item
+            name="clienteId"
+            label={<span>Cliente <Button size="small" type="link">Nuevo Cliente</Button></span>}
+            rules={[{ required: true, message: 'Seleccione un cliente' }]}
+          >
+            <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
+          </Form.Item>
           <Form.Item name="vehiculo" label="Vehículo" rules={[{ required: true, message: 'Ingrese el vehículo' }]}> <Input /> </Form.Item>
           <Form.Item name="descripcion" label="Descripción" rules={[{ required: true, message: 'Ingrese la descripción' }]}> <Input.TextArea /> </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <Input type="date" /> </Form.Item>

@@ -148,7 +148,13 @@ const Reparaciones = () => {
         cancelText="Cancelar"
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="clienteId" label="Cliente" rules={[{ required: true, message: 'Seleccione un cliente' }]}> <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} /> </Form.Item>
+          <Form.Item
+            name="clienteId"
+            label={<span>Cliente <Button size="small" type="link">Nuevo Cliente</Button></span>}
+            rules={[{ required: true, message: 'Seleccione un cliente' }]}
+          >
+            <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
+          </Form.Item>
           <Form.Item name="autoId" label="Auto" rules={[{ required: true, message: 'Seleccione un auto' }]}> <Select options={autos.map(a => ({ value: a.id, label: `${a.marca} ${a.modelo} (${a.patente})` }))} /> </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Seleccione la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="hora" label="Hora" rules={[{ required: true, message: 'Seleccione la hora' }]}> <TimePicker format="HH:mm" style={{ width: '100%' }} /> </Form.Item>
