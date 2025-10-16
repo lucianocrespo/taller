@@ -19,6 +19,7 @@ export default function Layout() {
             <li><Link to="/compPago">Comprobantes de Pago</Link></li>
             <li><Link to="/compCompra">Comprobantes de Compra</Link></li>
             <li><Link to="/presupuesto">Presupuestos</Link></li>
+            <li><Link to="/ordenCompra">Orden de compra</Link></li>
           </ul>
         </nav>
       </aside>
