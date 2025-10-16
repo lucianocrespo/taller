@@ -35,6 +35,10 @@ const routes: RouteConfig = [
 				file: "routes/compVenta.tsx",
 			},
 			{
+				path: "compPago",
+				file: "routes/compPago.tsx",
+			},
+			{
 				path: "presupuesto",
 				file: "routes/presupuesto.tsx",
 			},
