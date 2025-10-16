@@ -1,15 +1,11 @@
-.ordenCompra-container h1 {
+.detalle-section {
+  margin-top: 12px;
+}
+
+.ordencompra-container {
+  padding: 24px;
+}
+
+.ordencompra-container h1 {
   margin-bottom: 16px;
-}
-.detalle-section h3 {
-  margin: 8px 0;
-}
-.ordenCompra-container .ant-table {
-  background: #fff;
-}
-.ordenCompra-container .ant-modal-body {
-  background: #fff;
-}
-.ordenCompra-container .ant-space {
-  margin-bottom: 12px;
 }
