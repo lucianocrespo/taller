@@ -1,0 +1,22 @@
+.ordentrabajo-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 24px;
+}
+
+.ordentrabajo-container h1 {
+  margin-bottom: 16px;
+}
+.detalle-section h3 {
+  margin: 8px 0;
+}
+.ordentrabajo-container .ant-table {
+  background: #fff;
+}
+.ordentrabajo-container .ant-modal-body {
+  background: #fff;
+}
+.ordentrabajo-container .ant-space {
+  margin-bottom: 12px;
+}

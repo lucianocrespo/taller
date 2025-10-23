@@ -50,6 +50,10 @@ const routes: RouteConfig = [
 				path: "ordenCompra",
 				file: "routes/ordenCompra.tsx",
 			},
+			{
+				path: "ordenTrabajo",
+				file: "routes/ordenTrabajo.tsx",
+			},
 		],
 	},
 ];
