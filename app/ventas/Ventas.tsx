@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, Space, message, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import "./Ventas.css";
 
 
 interface Cliente {

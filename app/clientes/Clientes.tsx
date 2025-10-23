@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import './Clientes.css';
 
 interface Cliente {
   id: number;
@@ -86,10 +87,16 @@ const Clientes = () => {
     form.resetFields();
   };
 
+  const rowSelection = {
+    type: 'radio' as const,
+    selectedRowKeys,
+    onChange: setSelectedRowKeys,
+  };
+
   return (
-    <div style={{ padding: 24 }}>
-      <h1 style={{ marginBottom: 24 }}>Clientes</h1>
-      <Space style={{ marginBottom: 16 }}>
+    <div className="clientes-container" style={{ padding: 24 }}>
+      <h1 className="clientes-title">Clientes</h1>
+      <Space className="clientes-actions" style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={handleAgregar}>Agregar</Button>
         <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>
         <Button danger onClick={handleEliminar} disabled={selectedRowKeys.length === 0}>Eliminar</Button>
@@ -98,12 +105,8 @@ const Clientes = () => {
         rowKey="id"
         columns={columns}
         dataSource={clientes}
-        rowSelection={{
-          type: 'radio',
-          selectedRowKeys,
-          onChange: setSelectedRowKeys,
-        }}
-        pagination={false}
+        rowSelection={rowSelection}
+        pagination={{ pageSize: 8 }}
       />
       <Modal
         open={isModalOpen}

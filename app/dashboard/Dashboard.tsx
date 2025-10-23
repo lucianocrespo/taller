@@ -3,7 +3,6 @@ import './Dashboard.css';
 
 const today = new Date().toLocaleDateString();
 
-// Datos simulados
 const dashboardData = {
   turnosDelDia: 8,
   ventasDelMes: 12500,

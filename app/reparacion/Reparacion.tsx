@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Form, Select, DatePicker, TimePicker, Space, message } from "antd";
 import dayjs from "dayjs";
+import "./Reparacion.css";
 
 interface Reparacion {
   id: number;
@@ -54,7 +55,6 @@ const Reparaciones = () => {
     setFormType('editar');
     const turno = turnos.find(t => t.id === selectedRowKeys[0]);
     if (turno) {
-      // Para editar, se debe mapear cliente y auto a sus IDs si existen
       const clienteObj = clientes.find(c => c.nombre === turno.cliente);
       const autoObj = autos.find(a => `${a.marca} ${a.modelo}` === turno.auto);
       form.setFieldsValue({
@@ -114,7 +114,6 @@ const Reparaciones = () => {
       form.resetFields();
       setSelectedRowKeys([]);
     } catch (err) {
-      // validation error
     }
   };
 
