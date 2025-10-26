@@ -21,6 +21,10 @@ export default function Layout() {
             <li><Link to="/presupuesto">Presupuestos</Link></li>
             <li><Link to="/ordenCompra">Ordenes de compra</Link></li>
             <li><Link to="/ordenTrabajo">Ordenes de trabajo</Link></li>
+            <li><Link to="/reclamoCliente">Reclamos de clientes</Link></li>
+            <li><Link to="/reclamoProveedor">Reclamos a proveedores</Link></li>
+            <li><Link to="/mecanicos">Mecanicos</Link></li>
+            <li><Link to="/proveedores">Proveedores</Link></li>
           </ul>
         </nav>
       </aside>

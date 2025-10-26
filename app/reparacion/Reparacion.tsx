@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Form, Select, DatePicker, TimePicker, Space, message } from "antd";
 import dayjs from "dayjs";
-import "./Reparacion.css";
+import "./Reparacion.module.css";
 
 interface Reparacion {
   id: number;

@@ -150,7 +150,7 @@ const OrdenTrabajo = () => {
       };
       if (formType === 'agregar') {
         setOrdenesTrabajo([...ordenestrabajo, newOrdenTrabajo]);
-        message.success('Presupuesto agregado');
+        message.success('Orden de trabajo agregada');
       } else {
         setOrdenesTrabajo(ordenestrabajo.map(ot => ot.id === newOrdenTrabajo.id ? newOrdenTrabajo : ot));
         message.success('Orden de trabajo editada');

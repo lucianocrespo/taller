@@ -1,0 +1,20 @@
+.Reclamocliente-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 24px;
+}
+
+.Reclamocliente-container h1 {
+  margin-bottom: 16px;
+}
+
+.Reclamocliente-container .ant-table {
+  background: #fff;
+}
+.Reclamocliente-container .ant-modal-body {
+  background: #fff;
+}
+.Reclamocliente-container .ant-space {
+  margin-bottom: 12px;
+}

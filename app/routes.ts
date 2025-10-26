@@ -54,6 +54,22 @@ const routes: RouteConfig = [
 				path: "ordenTrabajo",
 				file: "routes/ordenTrabajo.tsx",
 			},
+			{
+				path: "reclamoCliente",
+				file: "routes/reclamoCliente.tsx",
+			},
+			{
+				path: "reclamoProveedor",
+				file: "routes/reclamoProveedor.tsx",
+			},
+			{
+				path: "mecanicos",
+				file: "routes/mecanicos.tsx",
+			},
+			{
+				path: "proveedores",
+				file: "routes/proveedores.tsx",
+			},
 		],
 	},
 ];
