@@ -2,32 +2,38 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import './Clientes.module.css';
+import './repuestos.module.css';
 
-interface Cliente {
+interface Repuesto {
   id: number;
   nombre: string;
-  email: string;
-  telefono: string;
+  modelo: string;
+  anio: number;
 }
 
-const initialClientes: Cliente[] = [
-  { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '123456789' },
-  { id: 2, nombre: 'Ana Gómez', email: 'ana@example.com', telefono: '987654321' },
+const initialRepuestos: Repuesto[] = [
+  { id: 1, nombre: 'Amortiguador', modelo: 'Toyota Corolla', anio: 2014 },
+  { id: 2, nombre: 'Pastilla de freno', modelo: 'Suzuki Fun', anio: 2009 },
+  { id: 3, nombre: 'Buje de parrilla', modelo: 'Volkswagen Vento', anio: 2012 },
+  { id: 4, nombre: 'Rotula', modelo: 'Reanault Duster', anio: 2017 },
+  { id: 5, nombre: 'Cazoleta', modelo: 'Peugeot Partner', anio: 2011 },
+  { id: 6, nombre: 'Espiral', modelo: 'Chevrolet Cruze', anio: 2013 },
+  { id: 7, nombre: 'Bieleta', modelo: 'Renault kangoo', anio: 2010 },
+  { id: 8, nombre: 'Precap', modelo: 'Volkswagen Bora', anio: 2008 },
 ];
 
-const Clientes = () => {
-  const [clientes, setClientes] = useState<Cliente[]>(initialClientes);
+const Repuestos = () => {
+  const [repuestos, setRepuestos] = useState<Repuesto[]>(initialRepuestos);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
   const [form] = Form.useForm();
 
-  const columns: ColumnsType<Cliente> = [
+  const columns: ColumnsType<Repuesto> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
     { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
+    { title: 'Modelo', dataIndex: 'modelo', key: 'modelo' },
+    { title: 'Año', dataIndex: 'anio', key: 'anio' },
   ];
 
   const handleAgregar = () => {
@@ -39,9 +45,9 @@ const Clientes = () => {
   const handleEditar = () => {
     if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
-    const cliente = clientes.find(c => c.id === selectedRowKeys[0]);
-    if (cliente) {
-      form.setFieldsValue(cliente);
+    const repuesto = repuestos.find(r => r.id === selectedRowKeys[0]);
+    if (repuesto) {
+      form.setFieldsValue(repuesto);
       setIsModalOpen(true);
     }
   };
@@ -49,14 +55,14 @@ const Clientes = () => {
   const handleEliminar = () => {
     if (selectedRowKeys.length === 0) return;
     Modal.confirm({
-      title: '¿Eliminar cliente(s)?',
-      content: '¿Estás seguro que deseas eliminar el/los cliente(s) seleccionado(s)?',
+      title: '¿Eliminar repuesto(s)?',
+      content: '¿Estás seguro que deseas eliminar el/los repuesto(s) seleccionado(s)?',
       okText: 'Sí',
       cancelText: 'No',
       onOk: () => {
-        setClientes(clientes.filter(c => !selectedRowKeys.includes(c.id)));
+        setRepuestos(repuestos.filter(r => !selectedRowKeys.includes(r.id)));
         setSelectedRowKeys([]);
-        message.success('Cliente(s) eliminado(s)');
+        message.success('Repuesto(s) eliminado(s)');
       },
     });
   };
@@ -65,12 +71,12 @@ const Clientes = () => {
     try {
       const values = await form.validateFields();
       if (formType === 'agregar') {
-        const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
-        setClientes([...clientes, { id: newId, ...values }]);
-        message.success('Cliente agregado');
+        const newId = repuestos.length ? Math.max(...repuestos.map(r => r.id)) + 1 : 1;
+        setRepuestos([...repuestos, { id: newId, ...values }]);
+        message.success('Repuesto agregado');
       } else if (formType === 'editar') {
-        setClientes(clientes.map(c => c.id === selectedRowKeys[0] ? { ...c, ...values } : c));
-        message.success('Cliente editado');
+        setRepuestos(repuestos.map(r => r.id === selectedRowKeys[0] ? { ...r, ...values } : r));
+        message.success('Repuesto editado');
       }
       setIsModalOpen(false);
       setFormType('');
@@ -94,9 +100,9 @@ const Clientes = () => {
   };
 
   return (
-    <div className="clientes-container" style={{ padding: 24 }}>
-      <h1 className="clientes-title">Clientes</h1>
-      <Space className="clientes-actions" style={{ marginBottom: 16 }}>
+    <div className="repuestos-container" style={{ padding: 24 }}>
+      <h1 className="repuestos-title">Repuestos</h1>
+      <Space className="repuestos-actions" style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={handleAgregar}>Agregar</Button>
         <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>
         <Button danger onClick={handleEliminar} disabled={selectedRowKeys.length === 0}>Eliminar</Button>
@@ -104,13 +110,13 @@ const Clientes = () => {
       <Table
         rowKey="id"
         columns={columns}
-        dataSource={clientes}
+        dataSource={repuestos}
         rowSelection={rowSelection}
         pagination={{ pageSize: 8 }}
       />
       <Modal
         open={isModalOpen}
-        title={formType === 'agregar' ? 'Agregar Cliente' : 'Editar Cliente'}
+        title={formType === 'agregar' ? 'Agregar Repuesto' : 'Editar Repuesto'}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         okText="Guardar"
@@ -119,7 +125,7 @@ const Clientes = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ nombre: '', email: '', telefono: '' }}
+          initialValues={{ nombre: '', modelo: '', anio: '' }}
         >
           <Form.Item
             label="Nombre"
@@ -129,16 +135,16 @@ const Clientes = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
+            label="Modelo"
+            name="modelo"
+            rules={[{ required: true, type: 'string', message: 'Ingrese un modelo' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Teléfono"
-            name="telefono"
-            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
+            label="Año"
+            name="anio"
+            rules={[{ required: true, type: 'number', message: 'Ingrese el año' }]}
           >
             <Input />
           </Form.Item>
@@ -148,4 +154,4 @@ const Clientes = () => {
   );
 };
 
-export default Clientes;
+export default Repuestos;

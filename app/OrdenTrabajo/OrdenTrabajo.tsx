@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Modal, Form, InputNumber, Select, DatePicker, Space, Input, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import './OrdenTrabajo.css';
+import './OrdenTrabajo.module.css';
 
 interface OrdenTrabajoItem {
   id: number;

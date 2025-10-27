@@ -5,14 +5,20 @@ import type { ColumnsType } from 'antd/es/table';
 
 interface Auto {
   id: number;
-  marca: string;
-  modelo: string;
+  idCliente: number;
   patente: string;
+  modelo: string;
 }
 
 const initialAutos: Auto[] = [
-  { id: 1, marca: 'Toyota', modelo: 'Corolla', patente: 'ABC123' },
-  { id: 2, marca: 'Ford', modelo: 'Fiesta', patente: 'XYZ789' },
+  { id: 1, idCliente: 1, patente: 'ABC123', modelo: 'Corolla' },
+  { id: 2, idCliente: 2, patente: 'XYZ789', modelo: 'Cruze' },
+  { id: 3, idCliente: 3, patente: 'AFG728', modelo: 'Kangoo' },
+  { id: 4, idCliente: 4, patente: 'HWR349', modelo: 'Bora' },
+  { id: 5, idCliente: 5, patente: 'LKF196', modelo: 'Fun' },
+  { id: 6, idCliente: 6, patente: 'PED461', modelo: 'Vento' },
+  { id: 7, idCliente: 7, patente: 'KSJ564', modelo: 'Duster' },
+  { id: 8, idCliente: 8, patente: 'GSI278', modelo: 'Partner' },
 ];
 
 const Autos = () => {
@@ -24,9 +30,9 @@ const Autos = () => {
 
   const columns: ColumnsType<Auto> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
-    { title: 'Marca', dataIndex: 'marca', key: 'marca' },
-    { title: 'Modelo', dataIndex: 'modelo', key: 'modelo' },
+    { title: 'ID Cliente', dataIndex: 'idCliente', key: 'idCliente' },
     { title: 'Patente', dataIndex: 'patente', key: 'patente' },
+    { title: 'Modelo', dataIndex: 'modelo', key: 'modelo' },
   ];
 
   const handleAgregar = () => {
@@ -116,19 +122,12 @@ const Autos = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ marca: '', modelo: '', patente: '' }}
+          initialValues={{ idCliente: '', patente: '', modelo: '' }}
         >
           <Form.Item
-            label="Marca"
-            name="marca"
-            rules={[{ required: true, message: 'Ingrese la marca' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Modelo"
-            name="modelo"
-            rules={[{ required: true, message: 'Ingrese el modelo' }]}
+            label="ID Cliente"
+            name="idCliente"
+            rules={[{ required: true, message: 'Ingrese el cliente' }]}
           >
             <Input />
           </Form.Item>
@@ -136,6 +135,13 @@ const Autos = () => {
             label="Patente"
             name="patente"
             rules={[{ required: true, message: 'Ingrese la patente' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Modelo"
+            name="modelo"
+            rules={[{ required: true, message: 'Ingrese el modelo' }]}
           >
             <Input />
           </Form.Item>

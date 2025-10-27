@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import './Proveedores.css';
+import './Proveedores.module.css';
 
 interface Proveedor {
   id: number;
@@ -95,7 +95,7 @@ const Proveedores = () => {
 
   return (
     <div className="proveedores-container" style={{ padding: 24 }}>
-      <h1 className="proveedores-title">Clientes</h1>
+      <h1 className="proveedores-title">Proveedores</h1>
       <Space className="proveedores-actions" style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={handleAgregar}>Agregar</Button>
         <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>

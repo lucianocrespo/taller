@@ -25,6 +25,13 @@ export default function Layout() {
             <li><Link to="/reclamoProveedor">Reclamos a proveedores</Link></li>
             <li><Link to="/mecanicos">Mecanicos</Link></li>
             <li><Link to="/proveedores">Proveedores</Link></li>
+            <li><Link to="/repuestos">Repuestos</Link></li>
+            <li><Link to="/servicios">Servicios</Link></li>
+            <li><Link to="/medioDePago">Medios de pago</Link></li>
+            <li><Link to="/modelosAuto">Modelos de auto</Link></li>
+            <li><Link to="/marcasAuto">Marcas de auto</Link></li>
+            <li><Link to="/tiposDocumento">Tipos de documento</Link></li>
+            <li><Link to="/calles">Calles</Link></li>
           </ul>
         </nav>
       </aside>

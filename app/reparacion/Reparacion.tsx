@@ -29,7 +29,7 @@ const initialReparaciones: Reparacion[] = [
 ];
 
 const Reparaciones = () => {
-  const [turnos, setTurnos] = useState<Reparacion[]>(initialReparaciones);
+  const [reparaciones, setReparaciones] = useState<Reparacion[]>(initialReparaciones);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
@@ -53,16 +53,16 @@ const Reparaciones = () => {
   const handleEditar = () => {
     if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
-    const turno = turnos.find(t => t.id === selectedRowKeys[0]);
-    if (turno) {
-      const clienteObj = clientes.find(c => c.nombre === turno.cliente);
-      const autoObj = autos.find(a => `${a.marca} ${a.modelo}` === turno.auto);
+    const reparacion = reparaciones.find(r => r.id === selectedRowKeys[0]);
+    if (reparacion) {
+      const clienteObj = clientes.find(c => c.nombre === reparacion.cliente);
+      const autoObj = autos.find(a => `${a.marca} ${a.modelo}` === reparacion.auto);
       form.setFieldsValue({
         clienteId: clienteObj ? clienteObj.id : undefined,
         autoId: autoObj ? autoObj.id : undefined,
-        fecha: dayjs(turno.fecha),
-        hora: dayjs(turno.hora, 'HH:mm'),
-        estado: turno.estado,
+        fecha: dayjs(reparacion.fecha),
+        hora: dayjs(reparacion.hora, 'HH:mm'),
+        estado: reparacion.estado,
       });
       setIsModalOpen(true);
     }
@@ -71,14 +71,14 @@ const Reparaciones = () => {
   const handleEliminar = () => {
     if (selectedRowKeys.length === 0) return;
     Modal.confirm({
-      title: '¿Eliminar turno(s)?',
-      content: '¿Estás seguro que deseas eliminar el/los turno(s) seleccionado(s)?',
+      title: '¿Eliminar reparacion(s)?',
+      content: '¿Estás seguro que deseas eliminar la/las reparacion(es) seleccionada(s)?',
       okText: 'Sí',
       cancelText: 'No',
       onOk: () => {
-        setTurnos(turnos.filter(t => !selectedRowKeys.includes(t.id)));
+        setReparaciones(reparaciones.filter(r => !selectedRowKeys.includes(r.id)));
         setSelectedRowKeys([]);
-        message.success('Turno(s) eliminado(s)');
+        message.success('Repacion(es) eliminada(s)');
       },
     });
   };
@@ -92,9 +92,9 @@ const Reparaciones = () => {
         message.error("Debe seleccionar cliente y auto válidos");
         return;
       }
-      const newTurno: Reparacion = {
+      const newReparacion: Reparacion = {
         id: formType === 'agregar'
-          ? (turnos.length ? Math.max(...turnos.map(t => t.id)) + 1 : 1)
+          ? (reparaciones.length ? Math.max(...reparaciones.map(r => r.id)) + 1 : 1)
           : selectedRowKeys[0] as number,
         cliente: clienteObj.nombre,
         auto: `${autoObj.marca} ${autoObj.modelo}`,
@@ -103,10 +103,10 @@ const Reparaciones = () => {
         estado: values.estado,
       };
       if (formType === 'agregar') {
-        setTurnos([...turnos, newTurno]);
+        setReparaciones([...reparaciones, newReparacion]);
         message.success("Reparacion agregada");
       } else if (formType === 'editar') {
-        setTurnos(turnos.map(t => t.id === selectedRowKeys[0] ? newTurno : t));
+        setReparaciones(reparaciones.map(r => r.id === selectedRowKeys[0] ? newReparacion : r));
         message.success("Reparacion editada");
       }
       setIsModalOpen(false);
@@ -134,7 +134,7 @@ const Reparaciones = () => {
       <Table
         rowKey="id"
         columns={columns}
-        dataSource={turnos}
+        dataSource={reparaciones}
         rowSelection={rowSelection}
         pagination={{ pageSize: 8 }}
       />

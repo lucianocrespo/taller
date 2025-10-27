@@ -2,32 +2,28 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import './Clientes.module.css';
+import './medioDePago.module.css';
 
-interface Cliente {
+interface MedioDePago {
   id: number;
-  nombre: string;
-  email: string;
-  telefono: string;
+  tipo: string;
 }
 
-const initialClientes: Cliente[] = [
-  { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '123456789' },
-  { id: 2, nombre: 'Ana Gómez', email: 'ana@example.com', telefono: '987654321' },
+const initialMediosDePago: MedioDePago[] = [
+  { id: 1, tipo: 'Efectivo' },
+  { id: 2, tipo: 'Transferencia' },
 ];
 
-const Clientes = () => {
-  const [clientes, setClientes] = useState<Cliente[]>(initialClientes);
+const MedioDePago = () => {
+  const [mediosDePago, setMediosDePago] = useState<MedioDePago[]>(initialMediosDePago);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
   const [form] = Form.useForm();
 
-  const columns: ColumnsType<Cliente> = [
+  const columns: ColumnsType<MedioDePago> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
-    { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
+    { title: 'Tipo', dataIndex: 'tipo', key: 'tipo' },
   ];
 
   const handleAgregar = () => {
@@ -39,9 +35,9 @@ const Clientes = () => {
   const handleEditar = () => {
     if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
-    const cliente = clientes.find(c => c.id === selectedRowKeys[0]);
-    if (cliente) {
-      form.setFieldsValue(cliente);
+    const medioDePago = mediosDePago.find(mp => mp.id === selectedRowKeys[0]);
+    if (medioDePago) {
+      form.setFieldsValue(medioDePago);
       setIsModalOpen(true);
     }
   };
@@ -49,14 +45,14 @@ const Clientes = () => {
   const handleEliminar = () => {
     if (selectedRowKeys.length === 0) return;
     Modal.confirm({
-      title: '¿Eliminar cliente(s)?',
-      content: '¿Estás seguro que deseas eliminar el/los cliente(s) seleccionado(s)?',
+      title: '¿Eliminar medio(s) de pago?',
+      content: '¿Estás seguro que deseas eliminar el/los medio(s) de pago seleccionado(s)?',
       okText: 'Sí',
       cancelText: 'No',
       onOk: () => {
-        setClientes(clientes.filter(c => !selectedRowKeys.includes(c.id)));
+        setMediosDePago(mediosDePago.filter(mp => !selectedRowKeys.includes(mp.id)));
         setSelectedRowKeys([]);
-        message.success('Cliente(s) eliminado(s)');
+        message.success('Medio(s) de pago eliminado(s)');
       },
     });
   };
@@ -65,12 +61,12 @@ const Clientes = () => {
     try {
       const values = await form.validateFields();
       if (formType === 'agregar') {
-        const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
-        setClientes([...clientes, { id: newId, ...values }]);
-        message.success('Cliente agregado');
+        const newId = mediosDePago.length ? Math.max(...mediosDePago.map(mp => mp.id)) + 1 : 1;
+        setMediosDePago([...mediosDePago, { id: newId, ...values }]);
+        message.success('Medio de pago agregado');
       } else if (formType === 'editar') {
-        setClientes(clientes.map(c => c.id === selectedRowKeys[0] ? { ...c, ...values } : c));
-        message.success('Cliente editado');
+        setMediosDePago(mediosDePago.map(mp => mp.id === selectedRowKeys[0] ? { ...mp, ...values } : mp));
+        message.success('Medio de pago editado');
       }
       setIsModalOpen(false);
       setFormType('');
@@ -94,9 +90,9 @@ const Clientes = () => {
   };
 
   return (
-    <div className="clientes-container" style={{ padding: 24 }}>
-      <h1 className="clientes-title">Clientes</h1>
-      <Space className="clientes-actions" style={{ marginBottom: 16 }}>
+    <div className="mediosDePago-container" style={{ padding: 24 }}>
+      <h1 className="mediosDePago-title">Medios de pago</h1>
+      <Space className="mediosDePago-actions" style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={handleAgregar}>Agregar</Button>
         <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>
         <Button danger onClick={handleEliminar} disabled={selectedRowKeys.length === 0}>Eliminar</Button>
@@ -104,13 +100,13 @@ const Clientes = () => {
       <Table
         rowKey="id"
         columns={columns}
-        dataSource={clientes}
+        dataSource={mediosDePago}
         rowSelection={rowSelection}
         pagination={{ pageSize: 8 }}
       />
       <Modal
         open={isModalOpen}
-        title={formType === 'agregar' ? 'Agregar Cliente' : 'Editar Cliente'}
+        title={formType === 'agregar' ? 'Agregar Medio de pago' : 'Editar Medio de pago'}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         okText="Guardar"
@@ -119,27 +115,14 @@ const Clientes = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ nombre: '', email: '', telefono: '' }}
+          initialValues={{ tipo: '' }}
         >
           <Form.Item
-            label="Nombre"
-            name="nombre"
-            rules={[{ required: true, message: 'Ingrese el nombre' }]}
+            label="Tipo"
+            name="tipo"
+            rules={[{ required: true, message: 'Ingrese el tipo' }]}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Teléfono"
-            name="telefono"
-            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
-          >
+            
             <Input />
           </Form.Item>
         </Form>
@@ -148,4 +131,4 @@ const Clientes = () => {
   );
 };
 
-export default Clientes;
+export default MedioDePago;

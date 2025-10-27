@@ -2,32 +2,35 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import './Clientes.module.css';
+import './MarcasAuto.module.css';
 
-interface Cliente {
+interface MarcaAuto {
   id: number;
   nombre: string;
-  email: string;
-  telefono: string;
 }
 
-const initialClientes: Cliente[] = [
-  { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '123456789' },
-  { id: 2, nombre: 'Ana Gómez', email: 'ana@example.com', telefono: '987654321' },
+const initialMarcasAuto: MarcaAuto[] = [
+  { id: 1, nombre: 'Toyota' },
+  { id: 2, nombre: 'Chevrolet' },
+  { id: 3, nombre: 'Renault' },
+  { id: 4, nombre: 'Volkswagen' },
+  { id: 5, nombre: 'Suzuki' },
+  { id: 6, nombre: 'Volkswagen' },
+  { id: 7, nombre: 'Renault' },
+  { id: 8, nombre: 'Peugeot' },
+
 ];
 
-const Clientes = () => {
-  const [clientes, setClientes] = useState<Cliente[]>(initialClientes);
+const MarcasAuto = () => {
+  const [marcasAuto, setMarcaAuto] = useState<MarcaAuto[]>(initialMarcasAuto);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
   const [form] = Form.useForm();
 
-  const columns: ColumnsType<Cliente> = [
+  const columns: ColumnsType<MarcaAuto> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
     { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
   ];
 
   const handleAgregar = () => {
@@ -39,9 +42,9 @@ const Clientes = () => {
   const handleEditar = () => {
     if (selectedRowKeys.length !== 1) return;
     setFormType('editar');
-    const cliente = clientes.find(c => c.id === selectedRowKeys[0]);
-    if (cliente) {
-      form.setFieldsValue(cliente);
+    const marcaAuto = marcasAuto.find(mca => mca.id === selectedRowKeys[0]);
+    if (marcaAuto) {
+      form.setFieldsValue(marcaAuto);
       setIsModalOpen(true);
     }
   };
@@ -49,14 +52,14 @@ const Clientes = () => {
   const handleEliminar = () => {
     if (selectedRowKeys.length === 0) return;
     Modal.confirm({
-      title: '¿Eliminar cliente(s)?',
-      content: '¿Estás seguro que deseas eliminar el/los cliente(s) seleccionado(s)?',
+      title: '¿Eliminar marca(s)?',
+      content: '¿Estás seguro que deseas eliminar la/las marca(s) seleccionada(s)?',
       okText: 'Sí',
       cancelText: 'No',
       onOk: () => {
-        setClientes(clientes.filter(c => !selectedRowKeys.includes(c.id)));
+        setMarcaAuto(marcasAuto.filter(mca => !selectedRowKeys.includes(mca.id)));
         setSelectedRowKeys([]);
-        message.success('Cliente(s) eliminado(s)');
+        message.success('Marca(s) eliminada(s)');
       },
     });
   };
@@ -65,12 +68,12 @@ const Clientes = () => {
     try {
       const values = await form.validateFields();
       if (formType === 'agregar') {
-        const newId = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
-        setClientes([...clientes, { id: newId, ...values }]);
-        message.success('Cliente agregado');
+        const newId = marcasAuto.length ? Math.max(...marcasAuto.map(mca => mca.id)) + 1 : 1;
+        setMarcaAuto([...marcasAuto, { id: newId, ...values }]);
+        message.success('Marca agregada');
       } else if (formType === 'editar') {
-        setClientes(clientes.map(c => c.id === selectedRowKeys[0] ? { ...c, ...values } : c));
-        message.success('Cliente editado');
+        setMarcaAuto(marcasAuto.map(mca => mca.id === selectedRowKeys[0] ? { ...mca, ...values } : mca));
+        message.success('Marca editada');
       }
       setIsModalOpen(false);
       setFormType('');
@@ -94,9 +97,9 @@ const Clientes = () => {
   };
 
   return (
-    <div className="clientes-container" style={{ padding: 24 }}>
-      <h1 className="clientes-title">Clientes</h1>
-      <Space className="clientes-actions" style={{ marginBottom: 16 }}>
+    <div className="marcasAuto-container" style={{ padding: 24 }}>
+      <h1 className="marcasAuto-title">Marcas de auto</h1>
+      <Space className="marcasAuto-actions" style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={handleAgregar}>Agregar</Button>
         <Button onClick={handleEditar} disabled={selectedRowKeys.length !== 1}>Editar</Button>
         <Button danger onClick={handleEliminar} disabled={selectedRowKeys.length === 0}>Eliminar</Button>
@@ -104,13 +107,13 @@ const Clientes = () => {
       <Table
         rowKey="id"
         columns={columns}
-        dataSource={clientes}
+        dataSource={marcasAuto}
         rowSelection={rowSelection}
         pagination={{ pageSize: 8 }}
       />
       <Modal
         open={isModalOpen}
-        title={formType === 'agregar' ? 'Agregar Cliente' : 'Editar Cliente'}
+        title={formType === 'agregar' ? 'Agregar Marca' : 'Editar Marca'}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         okText="Guardar"
@@ -119,26 +122,12 @@ const Clientes = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ nombre: '', email: '', telefono: '' }}
+          initialValues={{ nombre: '' }}
         >
           <Form.Item
             label="Nombre"
             name="nombre"
             rules={[{ required: true, message: 'Ingrese el nombre' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Teléfono"
-            name="telefono"
-            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
           >
             <Input />
           </Form.Item>
@@ -148,4 +137,4 @@ const Clientes = () => {
   );
 };
 
-export default Clientes;
+export default MarcasAuto;
