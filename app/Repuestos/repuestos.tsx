@@ -1,8 +1,13 @@
 
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './repuestos.module.css';
+
+interface Modelo {
+  id: number;
+  nombre: string;
+}
 
 interface Repuesto {
   id: number;
@@ -10,6 +15,22 @@ interface Repuesto {
   modelo: string;
   anio: number;
 }
+
+const modelos: Modelo[] = [
+  { id: 1, nombre: 'Toyota Corolla' },
+  { id: 2, nombre: 'Suzuki Fun' },
+  { id: 3, nombre: 'Volkswagen Vento' },
+  { id: 4, nombre: 'Renault Duster' },
+  { id: 5, nombre: 'Peugeot Partner' },
+  { id: 6, nombre: 'Chevrolet Cruze' },
+  { id: 7, nombre: 'Renault Kangoo' },
+  { id: 8, nombre: 'Volkswagen Bora' },
+];
+
+const anios = Array.from({ length: 30 }, (_, i) => ({
+  id: i,
+  value: new Date().getFullYear() - i,
+}));
 
 const initialRepuestos: Repuesto[] = [
   { id: 1, nombre: 'Amortiguador', modelo: 'Toyota Corolla', anio: 2014 },
@@ -135,18 +156,17 @@ const Repuestos = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label="Modelo"
-            name="modelo"
-            rules={[{ required: true, type: 'string', message: 'Ingrese un modelo' }]}
+            name="Modelo" label={<span> Modelo <Button size="small" type="link">Nuevo Modelo</Button></span>}
+            rules={[{ required: true, message: 'Seleccione un modelo' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione un modelo" options={modelos.map(m => ({ value: m.nombre, label: m.nombre }))} />
           </Form.Item>
           <Form.Item
             label="Año"
             name="anio"
-            rules={[{ required: true, type: 'number', message: 'Ingrese el año' }]}
+            rules={[{ required: true, message: 'Seleccione el año' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione un año" options={anios.map(a => ({ value: a.value, label: a.value.toString() }))} />
           </Form.Item>
         </Form>
       </Modal>

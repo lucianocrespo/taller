@@ -213,10 +213,10 @@ const Presupuesto = () => {
         <Form form={form} layout="vertical">
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="fechaValidez" label="Fecha de Validez" rules={[{ required: true, message: 'Ingrese la fecha de validez' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
-          <Form.Item name="idVehiculo" label="Vehículo" rules={[{ required: true, message: 'Seleccione el vehículo' }]}>
+          <Form.Item name="vehiculo" label={<span> Vehiculo <Button size="small" type="link">Nuevo Vehiculo</Button></span>} rules={[{ required: true, message: 'Seleccione el vehículo' }]}>
             <Select options={vehiculos.map(v => ({ value: v.id, label: v.descripcion }))} />
           </Form.Item>
-          <Form.Item name="idCliente" label="Cliente" rules={[{ required: true, message: 'Seleccione el cliente' }]}>
+          <Form.Item name="idCliente" label={<span> Cliente <Button size="small" type="link">Nuevo Cliente</Button></span>} rules={[{ required: true, message: 'Seleccione el cliente' }]}>
             <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
           </Form.Item>
 
@@ -227,7 +227,7 @@ const Presupuesto = () => {
               layout="inline"
               style={{ marginBottom: 8 }}
             >
-              <Form.Item name="idServicio" rules={[{ required: true, message: 'Seleccione el servicio' }]}>
+              <Form.Item name="idServicio" label='Servicio' rules={[{ required: true, message: 'Seleccione el servicio' }]}>
                 <Select style={{ width: 200 }} options={serviciosCatalog.map(s => ({ value: s.id, label: s.nombre }))} placeholder="Servicio" />
               </Form.Item>
               <Form.Item name="cant" rules={[{ required: true, message: 'Ingrese cantidad' }]}>
@@ -250,7 +250,7 @@ const Presupuesto = () => {
               layout="inline"
               style={{ marginBottom: 8 }}
             >
-              <Form.Item name="idRepuesto" rules={[{ required: true, message: 'Seleccione el repuesto' }]}>
+              <Form.Item name="idRepuesto" label='Repuesto' rules={[{ required: true, message: 'Seleccione el repuesto' }]}>
                 <Select style={{ width: 200 }} options={repuestosCatalog.map(r => ({ value: r.id, label: r.nombre }))} placeholder="Repuesto" />
               </Form.Item>
               <Form.Item name="cant" rules={[{ required: true, message: 'Ingrese cantidad' }]}>

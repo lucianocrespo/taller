@@ -1,14 +1,30 @@
 
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './ModelosAuto.module.css';
+
+interface Marca {
+  id: number;
+  nombre: string;
+}
 
 interface ModeloAuto {
   id: number;
   nombre: string;
   idMarca: number;
 }
+
+const marcas: Marca[] = [
+  { id: 1, nombre: 'Toyota' },
+  { id: 2, nombre: 'Chevrolet' },
+  { id: 3, nombre: 'Renault' },
+  { id: 4, nombre: 'Volkswagen' },
+  { id: 5, nombre: 'Suzuki' },
+  { id: 6, nombre: 'Peugeot' },
+  { id: 7, nombre: 'Ford' },
+  { id: 8, nombre: 'Fiat' },
+];
 
 const initialModelosAuto: ModeloAuto[] = [
     { id: 1, nombre: "Corolla", idMarca: 1 },
@@ -32,7 +48,7 @@ const ModelosAuto = () => {
   const columns: ColumnsType<ModeloAuto> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
     { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
-    { title: 'ID Marca', dataIndex: 'idMarca', key: 'idMarca' },
+    { title: 'Marca', dataIndex: 'idMarca', key: 'idMarca', render: (idMarca: number) => marcas.find(m => m.id === idMarca)?.nombre || '-' },
   ];
 
   const handleAgregar = () => {
@@ -82,7 +98,6 @@ const ModelosAuto = () => {
       form.resetFields();
       setSelectedRowKeys([]);
     } catch (err) {
-      // validation error
     }
   };
 
@@ -134,11 +149,10 @@ const ModelosAuto = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label="ID Marca"
-            name="idMarca"
-            rules={[{ required: true, message: 'Ingrese un ID de Marca' }]}
+            name="marca" label={<span> Marca <Button size="small" type="link">Nueva Marca</Button></span>}
+            rules={[{ required: true, message: 'Seleccione una marca' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione una marca" options={marcas.map(m => ({ value: m.id, label: m.nombre }))} />
           </Form.Item>
         </Form>
       </Modal>

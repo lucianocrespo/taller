@@ -141,12 +141,12 @@ const ReclamoProveedor = () => {
         width={900}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="idProveedor" label="Proveedores" rules={[{ required: true, message: 'Seleccione el proveedor' }]}>
+          <Form.Item name="idProveedor" label={<span> Proveedor <Button size="small" type="link">Nuevo Proveedor</Button></span>} rules={[{ required: true, message: 'Seleccione el proveedor' }]}>
             <Select options={proveedores.map(pr => ({ value: pr.id }))} />
           </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="descripcion" label="Descripciones"> <Input style={{ width: '100%' }} /> </Form.Item>
-          <Form.Item name="estado" label="estados" rules={[{ required: true, message: 'Seleccione el estado' }]}>
+          <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Seleccione el estado' }]}>
             <Select options={estados.map(e => ({ value: e.id, label: e.nombre }))} />
           </Form.Item>
 

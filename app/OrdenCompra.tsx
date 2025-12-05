@@ -167,14 +167,14 @@ const OrdenCompra = () => {
       >
         <Form form={form} layout="vertical">
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
-          <Form.Item name="idProveedor" label="Proveedor" rules={[{ required: true, message: 'Seleccione el proveedor' }]}> 
+          <Form.Item name="idProveedor" label={<span> Proveedor <Button size="small" type="link">Nuevo Proveedor</Button></span>} rules={[{ required: true, message: 'Seleccione el proveedor' }]}> 
             <Select style={{ width: 300 }} options={proveedores.map(p => ({ value: p.id, label: p.nombre }))} />
           </Form.Item>
 
           <div className="detalle-section" style={{ marginTop: 12 }}>
             <h3>Repuestos</h3>
             <Form onFinish={addRepuesto} layout="inline" style={{ marginBottom: 8 }}>
-              <Form.Item name="idRepuesto" rules={[{ required: true, message: 'Seleccione el repuesto' }]}> 
+              <Form.Item name="idRepuesto" label='Repuesto' rules={[{ required: true, message: 'Seleccione el repuesto' }]}> 
                 <Select style={{ width: 300 }} options={repuestosCatalog.map(r => ({ value: r.id, label: r.nombre }))} placeholder="Repuesto" />
               </Form.Item>
               <Form.Item name="cant" rules={[{ required: true, message: 'Ingrese cantidad' }]}> 

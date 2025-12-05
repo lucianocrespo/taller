@@ -19,6 +19,12 @@ const initialCompcompra: Comprobantecompra[] = [
   { id: 3, idProveedor: 3, fecha: "2025-08-21", total: 19000, subtotal: 23000, observaciones: " - " },
 ];
 
+const proveedores = [
+  { id: 1, nombre: 'Proveedor A' },
+  { id: 2, nombre: 'Proveedor B' },
+  { id: 3, nombre: 'Proveedor C' },
+];
+
 const Comprobantecompra = () => {
   const [comprobantes, setComprobantes] = useState<Comprobantecompra[]>(initialCompcompra);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -98,7 +104,6 @@ const Comprobantecompra = () => {
       form.resetFields();
       setSelectedRowKeys([]);
     } catch (err) {
-      // validation error
     }
   };
 
@@ -132,7 +137,9 @@ const Comprobantecompra = () => {
         cancelText="Cancelar"
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="idProveedor" label="IDProveedor" rules={[{ required: true, message: 'Ingrese el ID del comprobante de venta' }]}> <InputNumber min={1} style={{ width: '100%' }} /> </Form.Item>
+          <Form.Item name="idProveedor" label={<span> Proveedor <Button size="small" type="link">Nuevo Proveedor</Button></span>} rules={[{ required: true, message: 'Seleccione el proveedor' }]}> 
+            <Select placeholder="Seleccione proveedor" options={proveedores.map(p => ({ value: p.id, label: p.nombre }))} />
+          </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Seleccione la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="total" label="Total" rules={[{ required: true, message: 'Ingrese el total' }]}> <InputNumber min={0} style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="subtotal" label="Subtotal" rules={[{ required: true, message: 'Ingrese el subtotal' }]}> <InputNumber min={0} style={{ width: '100%' }} /> </Form.Item>

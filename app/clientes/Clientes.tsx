@@ -1,19 +1,48 @@
-
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select, InputNumber } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './Clientes.module.css';
+
+interface TipoDocumento {
+  id: number;
+  nombre: string;
+}
+
+interface Calle {
+  id: number;
+  nombre: string;
+}
 
 interface Cliente {
   id: number;
   nombre: string;
+  apellido: string;
   email: string;
   telefono: string;
+  idCalle: number;
+  altura: number;
+  piso: number;
+  depto: number;
+  idTipoDocumento: number;
 }
 
+const tiposDocumento: TipoDocumento[] = [
+  { id: 1, nombre: 'DNI' },
+  { id: 2, nombre: 'CUIT' },
+  { id: 3, nombre: 'CUIL' },
+  { id: 4, nombre: 'Pasaporte' },
+];
+
+const calles: Calle[] = [
+  { id: 1, nombre: 'San Martín' },
+  { id: 2, nombre: 'Avellaneda' },
+  { id: 3, nombre: 'Sargento Cabral' },
+  { id: 4, nombre: 'Rivadavia' },
+];
+
 const initialClientes: Cliente[] = [
-  { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '123456789' },
-  { id: 2, nombre: 'Ana Gómez', email: 'ana@example.com', telefono: '987654321' },
+  { id: 1, nombre: 'Juan', apellido: 'Pérez', email: 'juan@example.com', telefono: '123456789', idCalle: 1, altura: 123, piso: 2, depto: 4, idTipoDocumento: 1 },
+  { id: 2, nombre: 'Ana', apellido: 'Gómez', email: 'ana@example.com', telefono: '987654321', idCalle: 2, altura: 456, piso: 3, depto: 5, idTipoDocumento: 2 },
 ];
 
 const Clientes = () => {
@@ -24,10 +53,13 @@ const Clientes = () => {
   const [form] = Form.useForm();
 
   const columns: ColumnsType<Cliente> = [
-    { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
+    { title: 'ID', dataIndex: 'id', key: 'id', width: 60 },
     { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
+    { title: 'Apellido', dataIndex: 'apellido', key: 'apellido' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
+    { title: 'Calle', dataIndex: 'idCalle', key: 'idCalle', render: (idCalle: number) => calles.find(c => c.id === idCalle)?.nombre || '-' },
+    { title: 'Altura', dataIndex: 'altura', key: 'altura' },
   ];
 
   const handleAgregar = () => {
@@ -119,12 +151,19 @@ const Clientes = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ nombre: '', email: '', telefono: '' }}
+          initialValues={{ nombre: '', apellido: '', email: '', telefono: '', idCalle: undefined, altura: undefined, piso: undefined, depto: undefined, idTipoDocumento: undefined }}
         >
           <Form.Item
             label="Nombre"
             name="nombre"
             rules={[{ required: true, message: 'Ingrese el nombre' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Apellido"
+            name="apellido"
+            rules={[{ required: true, message: 'Ingrese el apellido' }]}
           >
             <Input />
           </Form.Item>
@@ -141,6 +180,41 @@ const Clientes = () => {
             rules={[{ required: true, message: 'Ingrese el teléfono' }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            label="Tipo de Documento"
+            name="idTipoDocumento"
+            rules={[{ required: true, message: 'Seleccione un tipo de documento' }]}
+          >
+            <Select placeholder="Seleccione tipo de documento" options={tiposDocumento.map(td => ({ value: td.id, label: td.nombre }))} />
+          </Form.Item>
+          <Form.Item
+            label="Calle"
+            name="idCalle"
+            rules={[{ required: true, message: 'Seleccione una calle' }]}
+          >
+            <Select placeholder="Seleccione una calle" options={calles.map(c => ({ value: c.id, label: c.nombre }))} />
+          </Form.Item>
+          <Form.Item
+            label="Altura"
+            name="altura"
+            rules={[{ required: true, message: 'Ingrese la altura' }]}
+          >
+            <InputNumber style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item
+            label="Piso"
+            name="piso"
+            rules={[{ required: true, message: 'Ingrese el piso' }]}
+          >
+            <InputNumber style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item
+            label="Departamento"
+            name="depto"
+            rules={[{ required: true, message: 'Ingrese el departamento' }]}
+          >
+            <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Form>
       </Modal>

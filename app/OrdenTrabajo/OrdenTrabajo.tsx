@@ -224,13 +224,13 @@ const OrdenTrabajo = () => {
         width={900}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="idTurno" label="Turnos" rules={[{ required: true, message: 'Seleccione el turno' }]}>
+          <Form.Item name="idTurnos" label={<span> Turno <Button size="small" type="link">Nuevo Turno</Button></span>} rules={[{ required: true, message: 'Seleccione el turno' }]}>
             <Select options={turnos.map(t => ({ value: t.id }))} />
           </Form.Item>
-          <Form.Item name="idMecanico" label="Mecanicos" rules={[{ required: true, message: 'Seleccione el mecanico' }]}>
+          <Form.Item name="idMecanico" label="Mecanico" rules={[{ required: true, message: 'Seleccione el mecanico' }]}>
             <Select options={mecanicos.map(m => ({ value: m.id, label: m.nombre }))} />
           </Form.Item>
-          <Form.Item name="estado" label="estados" rules={[{ required: true, message: 'Seleccione el estado' }]}>
+          <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Seleccione el estado' }]}>
             <Select options={estados.map(e => ({ value: e.id, label: e.nombre }))} />
           </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>

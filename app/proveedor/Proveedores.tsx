@@ -1,19 +1,35 @@
 
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select, InputNumber } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './Proveedores.module.css';
+
+interface Calle {
+  id: number;
+  nombre: string;
+}
 
 interface Proveedor {
   id: number;
   nombre: string;
+  razonSocial: string;
   email: string;
   telefono: string;
+  idCalle: number;
+  altura: number;
+  cuit: string;
 }
 
+const calles: Calle[] = [
+  { id: 1, nombre: 'San Martín' },
+  { id: 2, nombre: 'Avellaneda' },
+  { id: 3, nombre: 'Sargento Cabral' },
+  { id: 4, nombre: 'Rivadavia' },
+];
+
 const initialProveedores: Proveedor[] = [
-  { id: 1, nombre: 'Casa de repuestos 1', email: 'casarep1@example.com', telefono: '123453158' },
-  { id: 2, nombre: 'Casa de repuestos 2', email: 'casarep2@example.com', telefono: '987658513' },
+  { id: 1, nombre: 'Casa de repuestos 1', razonSocial: 'Repuestos S.A.', email: 'casarep1@example.com', telefono: '123453158', idCalle: 1, altura: 123, cuit: '20-12345678-9' },
+  { id: 2, nombre: 'Casa de repuestos 2', razonSocial: 'Distribuidora de Autos', email: 'casarep2@example.com', telefono: '987658513', idCalle: 2, altura: 456, cuit: '20-87654321-0' },
 ];
 
 const Proveedores = () => {
@@ -26,8 +42,12 @@ const Proveedores = () => {
   const columns: ColumnsType<Proveedor> = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
     { title: 'Nombre', dataIndex: 'nombre', key: 'nombre' },
+    { title: 'Razón Social', dataIndex: 'razonSocial', key: 'razonSocial' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Teléfono', dataIndex: 'telefono', key: 'telefono' },
+    { title: 'Calle', dataIndex: 'idCalle', key: 'idCalle', render: (idCalle: number) => calles.find(c => c.id === idCalle)?.nombre || '-' },
+    { title: 'Altura', dataIndex: 'altura', key: 'altura' },
+    { title: 'CUIT', dataIndex: 'cuit', key: 'cuit' },
   ];
 
   const handleAgregar = () => {
@@ -119,12 +139,19 @@ const Proveedores = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ nombre: '', email: '', telefono: '' }}
+          initialValues={{ nombre: '', razonSocial: '', email: '', telefono: '', idCalle: undefined, altura: undefined, cuit: '' }}
         >
           <Form.Item
             label="Nombre"
             name="nombre"
             rules={[{ required: true, message: 'Ingrese el nombre' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Razón Social"
+            name="razonSocial"
+            rules={[{ required: true, message: 'Ingrese la razón social' }]}
           >
             <Input />
           </Form.Item>
@@ -139,6 +166,27 @@ const Proveedores = () => {
             label="Teléfono"
             name="telefono"
             rules={[{ required: true, message: 'Ingrese el teléfono' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Calle"
+            name="idCalle"
+            rules={[{ required: true, message: 'Seleccione una calle' }]}
+          >
+            <Select placeholder="Seleccione una calle" options={calles.map(c => ({ value: c.id, label: c.nombre }))} />
+          </Form.Item>
+          <Form.Item
+            label="Altura"
+            name="altura"
+            rules={[{ required: true, message: 'Ingrese la altura' }]}
+          >
+            <InputNumber style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item
+            label="CUIT"
+            name="cuit"
+            rules={[{ required: true, message: 'Ingrese el CUIT' }]}
           >
             <Input />
           </Form.Item>

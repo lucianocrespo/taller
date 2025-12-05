@@ -34,7 +34,6 @@ const Turnos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState<'agregar' | 'editar' | ''>('');
   const [form] = Form.useForm();
-  // Estado para el modal de cliente
   const [isClienteModalOpen, setIsClienteModalOpen] = useState(false);
   const [clienteForm] = Form.useForm();
 
@@ -58,7 +57,6 @@ const Turnos = () => {
     setFormType('editar');
     const turno = turnos.find(t => t.id === selectedRowKeys[0]);
     if (turno) {
-      // Para editar, se debe mapear cliente y auto a sus IDs si existen
       const clienteObj = clientes.find(c => c.nombre === turno.cliente);
       const autoObj = autos.find(a => `${a.marca} ${a.modelo}` === turno.auto);
       form.setFieldsValue({
@@ -159,12 +157,11 @@ const Turnos = () => {
           >
             <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
           </Form.Item>
-          <Form.Item name="autoId" label="Auto" rules={[{ required: true, message: 'Seleccione un auto' }]}> <Select options={autos.map(a => ({ value: a.id, label: `${a.marca} ${a.modelo} (${a.patente})` }))} /> </Form.Item>
+          <Form.Item name="vehiculo" label={<span> Vehiculo <Button size="small" type="link">Nuevo Vehiculo</Button></span>} rules={[{ required: true, message: 'Seleccione un auto' }]}> <Select options={autos.map(a => ({ value: a.id, label: `${a.marca} ${a.modelo} (${a.patente})` }))} /> </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Seleccione la fecha' }]}> <DatePicker style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="hora" label="Hora" rules={[{ required: true, message: 'Seleccione la hora' }]}> <TimePicker format="HH:mm" style={{ width: '100%' }} /> </Form.Item>
           <Form.Item name="estado" label="Estado" rules={[{ required: true, message: 'Seleccione el estado' }]}> <Select options={[{ value: 'Pendiente', label: 'Pendiente' }, { value: 'Confirmado', label: 'Confirmado' }, { value: 'Finalizado', label: 'Finalizado' }]} /> </Form.Item>
         </Form>
-        {/* Modal para agregar cliente */}
         <Modal
           open={isClienteModalOpen}
           title="Agregar Cliente"
@@ -177,7 +174,6 @@ const Turnos = () => {
               setClientes([...clientes, nuevoCliente]);
               setIsClienteModalOpen(false);
               clienteForm.resetFields();
-              // Selecciona automáticamente el nuevo cliente en el formulario de turno
               form.setFieldValue('clienteId', newId);
               message.success('Cliente agregado');
             } catch (err) {}

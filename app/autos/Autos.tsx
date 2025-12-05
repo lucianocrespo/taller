@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
 import './Autos.css';
-import { Table, Button, Modal, Form, Input, Space, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+
+interface Cliente {
+  id: number;
+  nombre: string;
+}
+
+interface Modelo {
+  id: number;
+  nombre: string;
+}
+
+interface Patente {
+  id: number;
+  codigo: string;
+}
 
 interface Auto {
   id: number;
@@ -9,6 +24,36 @@ interface Auto {
   patente: string;
   modelo: string;
 }
+
+const clientes: Cliente[] = [
+  { id: 1, nombre: 'Juan Pérez' },
+  { id: 2, nombre: 'Ana Gómez' },
+  { id: 3, nombre: 'Carlos López' },
+  { id: 4, nombre: 'María García' },
+  { id: 5, nombre: 'Pedro Rodríguez' },
+];
+
+const modelos: Modelo[] = [
+  { id: 1, nombre: 'Corolla' },
+  { id: 2, nombre: 'Cruze' },
+  { id: 3, nombre: 'Kangoo' },
+  { id: 4, nombre: 'Bora' },
+  { id: 5, nombre: 'Fun' },
+  { id: 6, nombre: 'Vento' },
+  { id: 7, nombre: 'Duster' },
+  { id: 8, nombre: 'Partner' },
+];
+
+const patentes: Patente[] = [
+  { id: 1, codigo: 'ABC123' },
+  { id: 2, codigo: 'XYZ789' },
+  { id: 3, codigo: 'AFG728' },
+  { id: 4, codigo: 'HWR349' },
+  { id: 5, codigo: 'LKF196' },
+  { id: 6, codigo: 'PED461' },
+  { id: 7, codigo: 'KSJ564' },
+  { id: 8, codigo: 'GSI278' },
+];
 
 const initialAutos: Auto[] = [
   { id: 1, idCliente: 1, patente: 'ABC123', modelo: 'Corolla' },
@@ -122,28 +167,28 @@ const Autos = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ idCliente: '', patente: '', modelo: '' }}
+          initialValues={{ idCliente: undefined, patente: '', modelo: '' }}
         >
           <Form.Item
-            label="ID Cliente"
+            label={<span>Cliente <Button size="small" type="link">Nuevo Cliente</Button></span>}
             name="idCliente"
-            rules={[{ required: true, message: 'Ingrese el cliente' }]}
+            rules={[{ required: true, message: 'Seleccione un cliente' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione un cliente" options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
           </Form.Item>
           <Form.Item
-            label="Patente"
+            label={<span>Patente <Button size="small" type="link">Nueva Patente</Button></span>}
             name="patente"
-            rules={[{ required: true, message: 'Ingrese la patente' }]}
+            rules={[{ required: true, message: 'Seleccione una patente' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione una patente" options={patentes.map(p => ({ value: p.codigo, label: p.codigo }))} />
           </Form.Item>
           <Form.Item
-            label="Modelo"
+            label={<span>Modelo <Button size="small" type="link">Nuevo Modelo</Button></span>}
             name="modelo"
-            rules={[{ required: true, message: 'Ingrese el modelo' }]}
+            rules={[{ required: true, message: 'Seleccione un modelo' }]}
           >
-            <Input />
+            <Select placeholder="Seleccione un modelo" options={modelos.map(m => ({ value: m.nombre, label: m.nombre }))} />
           </Form.Item>
         </Form>
       </Modal>

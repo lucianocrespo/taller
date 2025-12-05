@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Space, message, Select } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, Space, message, Select, DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import type { ColumnsType } from 'antd/es/table';
 import "./Ventas.css";
 
@@ -22,6 +23,14 @@ const clientes: Cliente[] = [
   { id: 1, nombre: 'Juan Pérez' },
   { id: 2, nombre: 'María Gómez' },
   { id: 3, nombre: 'Carlos López' },
+];
+
+const vehiculos: Cliente[] = [
+  { id: 1, nombre: 'Ford Fiesta' },
+  { id: 2, nombre: 'Renault Clio' },
+  { id: 3, nombre: 'Peugeot 208' },
+  { id: 4, nombre: 'Chevrolet Onix' },
+  { id: 5, nombre: 'Toyota Corolla' },
 ];
 
 const initialVentas: Venta[] = [
@@ -84,13 +93,13 @@ const Ventas = () => {
     setFormType('editar');
     const venta = ventas.find(v => v.id === selectedRowKeys[0]);
     if (venta) {
-      // Buscar el cliente por nombre y setear el id
       const clienteObj = clientes.find(c => c.nombre === venta.cliente);
+      const vehiculoObj = vehiculos.find(c => c.nombre === venta.vehiculo);
       form.setFieldsValue({
         clienteId: clienteObj ? clienteObj.id : undefined,
-        vehiculo: venta.vehiculo,
+        vehiculo: vehiculoObj ? vehiculoObj.nombre : undefined,
         descripcion: venta.descripcion,
-        fecha: venta.fecha,
+        fecha: dayjs(venta.fecha),
         monto: venta.monto,
       });
       setIsModalOpen(true);
@@ -127,7 +136,7 @@ const Ventas = () => {
         cliente: clienteObj.nombre,
         vehiculo: values.vehiculo,
         descripcion: values.descripcion,
-        fecha: values.fecha,
+        fecha: values.fecha.format ? values.fecha.format("YYYY-MM-DD") : values.fecha,
         monto: values.monto,
       };
       if (formType === 'agregar') {
@@ -142,7 +151,6 @@ const Ventas = () => {
       form.resetFields();
       setSelectedRowKeys([]);
     } catch (err) {
-      // validation error
     }
   };
 
@@ -183,7 +191,7 @@ const Ventas = () => {
           >
             <Select options={clientes.map(c => ({ value: c.id, label: c.nombre }))} />
           </Form.Item>
-          <Form.Item name="vehiculo" label="Vehículo" rules={[{ required: true, message: 'Ingrese el vehículo' }]}> <Input /> </Form.Item>
+          <Form.Item name="vehiculo" label={<span> Vehiculo <Button size="small" type="link">Nuevo Vehiculo</Button></span>} rules={[{ required: true, message: 'Seleccione el vehículo' }]}> <Select placeholder="Seleccione un vehículo" options={vehiculos.map(v => ({ value: v.nombre, label: v.nombre }))} /> </Form.Item>
           <Form.Item name="descripcion" label="Descripción" rules={[{ required: true, message: 'Ingrese la descripción' }]}> <Input.TextArea /> </Form.Item>
           <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'Ingrese la fecha' }]}> <Input type="date" /> </Form.Item>
           <Form.Item name="monto" label="Monto" rules={[{ required: true, message: 'Ingrese el monto' }]}> <InputNumber min={0} style={{ width: '100%' }} /> </Form.Item>

@@ -38,9 +38,6 @@ export default function Layout() {
       <div className="main-area">
         <header className="topbar">
           <div className="topbar-right">
-            <Link to="/login" className="user-btn" title="Ingresar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M21 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/></svg>
-            </Link>
           </div>
         </header>
         <main className="main-content">

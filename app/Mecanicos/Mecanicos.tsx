@@ -160,7 +160,6 @@ const Mecanicos = () => {
           >
             <Input />
           </Form.Item>
-          {/*AGREGAR DESPLEGABLE DE ID CALLE*/}
           <Form.Item name="idCalle" label="Calle" 
             rules={[{ required: true, message: 'Seleccione una calle' }]}> 
             <Select options={calles.map(cll => ({ value: cll.id, label: cll.nombre }))} 
@@ -176,16 +175,16 @@ const Mecanicos = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
+            label="Teléfono"
+            name="telefono"
+            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Teléfono"
-            name="telefono"
-            rules={[{ required: true, message: 'Ingrese el teléfono' }]}
+            label="Email"
+            name="email"
+            rules={[{ required: true, type: 'email', message: 'Ingrese un email válido' }]}
           >
             <Input />
           </Form.Item>
